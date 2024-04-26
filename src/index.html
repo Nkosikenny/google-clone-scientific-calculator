@@ -43,7 +43,7 @@
                 <button type="button" class="btn btn-light w-100 mt-2">9</button>
               </div>
               <div class="col-3">
-                <button type="button" class="btn btn-light w-100 mt-2">%</button>
+                <button type="button" class="btn btn-light w-100 mt-2">÷</button>
               </div>
               <!--row 3-->
               <div class="col-3">
@@ -104,8 +104,17 @@
       console.log("Document is ready");
       const display = document.getElementById("cal-display");
       const btnElements = document.getElementsByClassName("btn");
-
+      
       let currentValue="";
+
+      function  evaluateResult(){
+        const convertedValue=currentValue.replace("×", "*").replace("%", "*0.01").replace("÷", "/");
+         const result=eval(convertedValue);
+         currentValue=result.toString();
+         display.value=currentValue;    
+      }
+
+      
 
       //for loop to add event handler on button elements
       for (i = 0; i < btnElements.length; i++) {
@@ -113,8 +122,17 @@
 
         btn.addEventListener("click", function () {
           const value=btn.innerText;
-          currentValue+=value;
-          display.value=currentValue;
+
+          if(value==="AC"){
+             currentValue="";
+             display.value=currentValue;
+          } else if (value=="=") {
+            evaluateResult();
+          } else{
+            currentValue+=value;
+            display.value=currentValue;
+          }
+          
 
         });
       }
